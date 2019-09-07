@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini10.miniserver.mapper.ConditionTagMapper">
+    <resultMap id="BaseResultMap" type="com.mini10.miniserver.model.ConditionTag">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="condition_tag_name" jdbcType="VARCHAR" property="conditionTagName"/>
+        <result column="condition_tag_id" jdbcType="INTEGER" property="conditionTagId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <insert id="addConditionTags" parameterType="java.util.List">
+        insert into condition_tag(
+        open_id,
+        condition_tag_name,
+        condition_tag_id
+        ) values
+        <foreach collection="conditionTags" item="conditionTag" index="index" separator=",">
+            (#{conditionTag.openId},#{conditionTag.conditionTagName},#{conditionTag.conditionTagId})
+        </foreach>
+    </insert>
+    <delete id="deleteConditionTagsByOpenId" parameterType="java.lang.String">
+      delete from condition_tag where open_id = #{openId}
+    </delete>
+    <select id="getConditionTagIdsByOpenId" parameterType="java.lang.String" resultType="java.lang.Integer">
+      select condition_tag_id from condition_tag where open_id = #{openId}
+    </select>
+
+    <select id="getConditionTagsByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select * from condition_tag where open_id = #{openId}
+    </select>
+</mapper>

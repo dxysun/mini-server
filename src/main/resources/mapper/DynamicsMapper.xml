@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini10.miniserver.mapper.DynamicsMapper">
+    <resultMap id="baseResultMap" type="com.mini10.miniserver.model.Dynamics">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="diary" jdbcType="VARCHAR" property="diary"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="poster" jdbcType="VARCHAR" property="poster"/>
+        <result column="emotion_rate" jdbcType="INTEGER" property="emotionRate"/>
+        <result column="secret" jdbcType="INTEGER" property="secret"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        open_id,diary,create_time,poster,emotion_rate,secret,location
+    </sql>
+
+    <insert id="insertDynamics" parameterType="com.mini10.miniserver.model.Dynamics">
+        insert into dynamics(
+        <include refid="Base_Column_List"/>)
+        values(#{openId},#{diary},#{createTime},#{poster},#{emotionRate},#{secret},#{location})
+    </insert>
+
+<!--    <select id ="selectThreeDaysDynamics" resultMap="baseResultMap">-->
+<!--    select * from dynamics where date_sub(CURDATE(),INTERVAL 1 DAY) <= DATE(create_time);-->
+<!--     </select>-->
+
+
+    <select id="selectAllDynamics" parameterType="java.lang.String" resultMap="baseResultMap">
+    select
+    id,open_id,diary,create_time,poster,emotion_rate,secret,location
+    from dynamics where open_id =#{openId}
+    order by create_time desc
+    </select>
+    <select id="selectMatchedUserDiary" parameterType="java.lang.String" resultMap="baseResultMap">
+        select
+        id,open_id,diary,create_time,poster,emotion_rate,secret,location
+        from dynamics where open_id =#{targetOpenId} and secret = 0
+        order by create_time desc
+    </select>
+    <delete id="deleteDiary">
+        delete from dynamics where id = #{id}
+    </delete>
+    <select id="queryNewestByOpenId" parameterType="java.lang.String" resultMap="baseResultMap">
+        select
+        id,open_id,diary,create_time,poster,emotion_rate,secret,location
+        from dynamics where open_id =#{openId} order by create_time DESC limit 1
+    </select>
+
+    <select id="selectByOpenId" resultMap="baseResultMap">
+        select
+        id,open_id,diary,create_time,poster,emotion_rate,secret,location
+        from dynamics where open_id =#{openId} order by create_time
+    </select>
+</mapper>

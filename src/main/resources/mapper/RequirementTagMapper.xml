@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini10.miniserver.mapper.RequirementTagMapper">
+  <resultMap id="BaseResultMap" type="com.mini10.miniserver.model.RequirementTag">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="require_tag_name" jdbcType="VARCHAR" property="requireTagName" />
+    <result column="require_tag_id" jdbcType="INTEGER" property="requireTagId" />
+      <result column="necessary" jdbcType="INTEGER" property="necessary" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+
+    <insert id="setRequirementTagMapper" parameterType="java.util.List">
+        insert into requirement_tag (open_id,require_tag_name,require_tag_id,necessary) values
+        <foreach collection="requireTags" item="tag" index="index" separator=",">
+            (#{tag.openId},#{tag.requireTagName},#{tag.requireTagId},0)
+        </foreach>
+    </insert>
+
+    <insert id="setNecessaryTagMapper" parameterType="java.util.List">
+        insert into requirement_tag (open_id,require_tag_name,require_tag_id,necessary) values
+        <foreach collection="requireTags" item="tag" index="index" separator=",">
+            (#{tag.openId},#{tag.requireTagName},#{tag.requireTagId},1)
+        </foreach>
+    </insert>
+    <delete id="deleteRequirementTag" parameterType="com.mini10.miniserver.model.RequirementTag">
+        delete from requirement_tag where open_id = #{openId} and necessary = #{necessary}
+    </delete>
+
+    <select id="getRequirementTagIdsByOpenId" parameterType="java.lang.String" resultType="java.lang.Integer">
+      select require_tag_id from requirement_tag where open_id = #{openId} and necessary = 0
+    </select>
+
+    <select id="getNecessaryTagIdsByOpenId" parameterType="java.lang.String" resultType="java.lang.Integer">
+      select require_tag_id from requirement_tag where open_id = #{openId} and necessary = 1
+    </select>
+
+    <select id="getRequirementTagsByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select * from requirement_tag where open_id = #{openId} and necessary = 0
+    </select>
+
+    <select id="getNecessaryTagsByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select * from requirement_tag where open_id = #{openId} and necessary = 1
+    </select>
+
+    <select id="getAllRequireTagsByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+              select * from requirement_tag where open_id = #{openId}
+    </select>
+</mapper>

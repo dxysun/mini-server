@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini10.miniserver.mapper.VirtualGroupInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mini10.miniserver.model.VirtualGroupInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="virtual_group_id" jdbcType="VARCHAR" property="virtualGroupId" />
+    <result column="virtual_group_name" jdbcType="VARCHAR" property="virtualGroupName" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="adcode" jdbcType="VARCHAR" property="adcode" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="citycode" jdbcType="VARCHAR" property="citycode" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+
+  <insert id="addVirtualGroupInfo" parameterType="com.mini10.miniserver.model.VirtualGroupInfo">
+    insert into virtual_group_info(virtual_group_id,virtual_group_name,creator_id,district,adcode,city,citycode,province)
+    values (
+      #{virtualGroupId},
+      #{virtualGroupName},
+      #{creatorId},
+      #{district},
+      #{adcode},
+      #{city},
+      #{citycode},
+      #{province}
+    )
+  </insert>
+
+  <select id="getVirtualGroupInfoByGroupId" parameterType="string" resultMap="BaseResultMap">
+    select * from virtual_group_info where virtual_group_id = #{virtualGroupId}
+  </select>
+  <select id="getVirtualGroupListByPosition" resultMap="BaseResultMap">
+    select * from virtual_group_info where adcode = #{adcode} and citycode = #{citycode}
+  </select>
+  <select id="getVirtualGroupListByCreatorId" resultMap="BaseResultMap">
+    select * from virtual_group_info where creator_id = #{creator_id}
+  </select>
+
+</mapper>

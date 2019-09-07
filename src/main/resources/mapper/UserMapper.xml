@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini10.miniserver.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.mini10.miniserver.model.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="hometown_city" jdbcType="VARCHAR" property="hometownCity"/>
+        <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="gender" jdbcType="INTEGER" property="gender"/>
+        <result column="language" jdbcType="VARCHAR" property="language"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="hometown_province" jdbcType="VARCHAR" property="hometownProvince"/>
+        <result column="school" jdbcType="VARCHAR" property="school"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="birth" jdbcType="VARCHAR" property="birth"/>
+        <result column="height" jdbcType="INTEGER" property="height"/>
+        <result column="weight" jdbcType="INTEGER" property="weight"/>
+        <result column="constellation" jdbcType="VARCHAR" property="constellation"/>
+        <result column="work_status" jdbcType="INTEGER" property="workStatus"/>
+        <result column="degree" jdbcType="INTEGER" property="degree"/>
+        <result column="upload_imgs" jdbcType="LONGVARCHAR" property="uploadImgs"/>
+        <result column="user_score" jdbcType="INTEGER" property="userScore"/>
+        <result column="activity_home" jdbcType="INTEGER" property="activityHome"/>
+        <result column="imgs_info" jdbcType="LONGVARCHAR" property="imgsInfo"/>
+        <result column="user_score" jdbcType="INTEGER" property="userScore"/>
+        <result column="is_share" jdbcType="INTEGER" property="isShare"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="job" jdbcType="VARCHAR" property="job"/>
+        <result column="wechat_id" jdbcType="VARCHAR" property="wechatId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="avatar_url" jdbcType="LONGVARCHAR" property="avatarUrl"/>
+        <result column="upload_avatar_url" jdbcType="LONGVARCHAR" property="uploadAvatarUrl"/>
+        <result column="wish" jdbcType="LONGVARCHAR" property="wish"/>
+        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
+    </resultMap>
+
+    <select id="queryUserByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from user where open_id = #{openId}
+    </select>
+
+    <select id="queryNickNameByOpenId" parameterType="java.lang.String" resultType="java.lang.String">
+        select nick_name from user where open_id = #{openId}
+    </select>
+
+    <insert id="addUser" parameterType="com.mini10.miniserver.model.User">
+        insert  ignore into user(
+        open_id,
+        avatar_url,
+        city,
+        country,
+        gender,
+        language,
+        nick_name,
+        province,
+        age,
+        height,
+        weight
+        )
+        values(
+        #{openId},
+        #{avatarUrl},
+        #{city},
+        #{country},
+        #{gender},
+        #{language},
+        #{nickName},
+        #{province},
+        #{age},
+        #{height},
+        #{weight}
+        )
+    </insert>
+
+
+    <update id="updateUserDate">
+        update user
+        <trim suffixOverrides=",">
+            <set>
+                <if test="age!=null">
+                    age=#{age},
+                </if>
+                <if test="height!=null">
+                    height=#{height},
+                </if>
+                <if test="weight != null">
+                    weight = #{weight},
+                </if>
+                <if test="gender != null">
+                    gender = #{gender},
+                </if>
+                <if test="degree != null">
+                    degree = #{degree},
+                </if>
+                <if test="school != null and school != ''">
+                    school = #{school},
+                </if>
+                <if test="city != null and city != ''">
+                    city = #{city},
+                </if>
+                <if test="hometownCity != null and hometownCity != ''">
+                    hometown_city = #{hometownCity},
+                </if>
+                <if test="country != null and country != ''">
+                    country = #{country},
+                </if>
+                <if test="language != null and language != ''">
+                    language = #{language},
+                </if>
+                <if test="nickName != null and nickName != ''">
+                    nick_name = #{nickName},
+                </if>
+                <if test="province != null and province != ''">
+                    province = #{province},
+                </if>
+                <if test="hometownProvince != null and hometownProvince != ''">
+                    hometown_province = #{hometownProvince},
+                </if>
+                <if test="birth != null and birth != ''">
+                    birth = #{birth},
+                </if>
+                <if test="constellation != null and constellation != ''">
+                    constellation = #{constellation},
+                </if>
+                <if test="workStatus != null">
+                    work_status = #{workStatus},
+                </if>
+                <if test="wechatId != null and wechatId != ''">
+                    wechat_id = #{wechatId},
+                </if>
+                <if test="phone != null and phone != ''">
+                    phone = #{phone},
+                </if>
+                <if test="avatarUrl != null and avatarUrl != ''">
+                    avatar_url = #{avatarUrl},
+                </if>
+                <if test="uploadAvatarUrl != null and uploadAvatarUrl != ''">
+                    upload_avatar_url = #{uploadAvatarUrl},
+                </if>
+                <if test="company != null and company != ''">
+                    company = #{company},
+                </if>
+                <if test="job != null and job != ''">
+                    job = #{job},
+                </if>
+                <if test="uploadImgs != null and uploadImgs != ''">
+                    upload_imgs = #{uploadImgs},
+                </if>
+                <if test="userScore != null and userScore != ''">
+                    user_score = #{userScore},
+                </if>
+                <if test="wish != null and wish != ''">
+                    wish = #{wish},
+                </if>
+                <if test="description != null and description != ''">
+                    description = #{description},
+                </if>
+                <if test="activityHome != null">
+                    activity_home = #{activityHome},
+                </if>
+                <if test="isShare != null">
+                    is_share = #{isShare},
+                </if>
+                <if test="openId != null and openId != ''">
+                    open_id = #{openId}
+                </if>
+            </set>
+        </trim>
+        where open_id = #{openId};
+    </update>
+</mapper>

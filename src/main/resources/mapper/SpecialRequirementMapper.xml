@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini10.miniserver.mapper.SpecialRequirementMapper">
+    <resultMap id="BaseResultMap" type="com.mini10.miniserver.model.SpecialRequirement">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="height_min" jdbcType="INTEGER" property="heightMin"/>
+        <result column="height_max" jdbcType="INTEGER" property="heightMax"/>
+        <result column="weight_min" jdbcType="INTEGER" property="weightMin"/>
+        <result column="weight_max" jdbcType="INTEGER" property="weightMax"/>
+        <result column="school" jdbcType="VARCHAR" property="school"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="hometown_city" jdbcType="VARCHAR" property="hometownCity"/>
+        <result column="hometown_province" jdbcType="VARCHAR" property="hometownProvince"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="constellation" jdbcType="VARCHAR" property="constellation"/>
+        <result column="degree" jdbcType="INTEGER" property="degree"/>
+        <result column="work_status" jdbcType="INTEGER" property="workStatus"/>
+        <result column="age_min" jdbcType="INTEGER" property="ageMin"/>
+        <result column="age_max" jdbcType="INTEGER" property="ageMax"/>
+
+    </resultMap>
+
+    <select id="getRequireByOpenId" resultMap="BaseResultMap">
+    select * from special_requirement where open_id = #{openId}
+  </select>
+
+    <insert id="addSpecialRequirement" parameterType="com.mini10.miniserver.model.SpecialRequirement">
+        insert into special_requirement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            open_id,
+            <if test="height_min != null">
+                height_min,
+            </if>
+            <if test="height_max != null">
+                height_max,
+            </if>
+            <if test="weight_min != null">
+                weight_min,
+            </if>
+            <if test="weight_max != null">
+                weight_max,
+            </if>
+            <if test="school != null and school != ''">
+                school,
+            </if>
+            <if test="city != null and city != ''">
+                city,
+            </if>
+            <if test="hometown_city != null and hometown_city != ''">
+                hometown_city,
+            </if>
+            <if test="hometown_province != null and hometown_province != ''">
+                hometown_province,
+            </if>
+            <if test="province != null and province != ''">
+                province,
+            </if>
+            <if test="constellation != null and constellation != ''">
+                constellation,
+            </if>
+            <if test="degree != null and degree != ''">
+                degree,
+            </if>
+            <if test="work_status != null and work_status != ''">
+                work_status,
+            </if>
+            <if test="age_min != null">
+                age_min,
+            </if>
+            <if test="age_max != null">
+                age_max,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{openId},
+            <if test="height_min != null">
+                #{heightMin},
+            </if>
+            <if test="height_max != null">
+                #{heightMax},
+            </if>
+            <if test="weight_min != null">
+                #{weightMin},
+            </if>
+            <if test="weight_max != null">
+                #{weightMax},
+            </if>
+            <if test="school != null and school != ''">
+                #{school},
+            </if>
+            <if test="city != null and city != ''">
+                #{city},
+            </if>
+            <if test="hometown_city != null and hometown_city != ''">
+                #{hometownCity},
+            </if>
+            <if test="hometown_province != null and hometown_province != ''">
+                #{hometownProvince},
+            </if>
+            <if test="province != null and province != ''">
+                #{province},
+            </if>
+            <if test="constellation != null and constellation != ''">
+                #{constellation},
+            </if>
+            <if test="degree != null and degree != ''">
+                #{degree},
+            </if>
+            <if test="work_status != null and work_status != ''">
+                #{workStatus},
+            </if>
+            <if test="age_min != null ">
+                #{ageMin},
+            </if>
+            <if test="age_max != null ">
+                #{ageMax},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSpecialRequirementByOpenId" parameterType="com.mini10.miniserver.model.SpecialRequirement">
+        update special_requirement
+        <trim suffixOverrides=",">
+            <set>
+                <if test="age_min != null">
+                    age_min=#{ageMin},
+                </if>
+                <if test="age_max != null">
+                    age_max=#{ageMax},
+                </if>
+                <if test="height_min != null">
+                    height_min = #{heightMin},
+                </if>
+                <if test="height_max != null">
+                    height_max = #{heightMax},
+                </if>
+                <if test="weight_min != null">
+                    weight_min = #{weightMin},
+                </if>
+                <if test="weight_max != null">
+                    weight_max = #{weightMax},
+                </if>
+                <if test="degree != null">
+                    degree = #{degree},
+                </if>
+                <if test="school != null and school != ''">
+                    school = #{school},
+                </if>
+                <if test="city != null and city != ''">
+                    city = #{city},
+                </if>
+                <if test="hometownCity != null and hometownCity != ''">
+                    hometown_city = #{hometownCity},
+                </if>
+                <if test="province != null and province != ''">
+                    province = #{province},
+                </if>
+                <if test="hometownProvince != null and hometownProvince != ''">
+                    hometown_province = #{hometownProvince},
+                </if>
+                <if test="constellation != null and constellation != ''">
+                    constellation = #{constellation},
+                </if>
+                <if test="workStatus != null">
+                    work_status = #{workStatus},
+                </if>
+                open_id = #{openId}
+            </set>
+        </trim>
+        where open_id = #{openId}
+    </update>
+</mapper>

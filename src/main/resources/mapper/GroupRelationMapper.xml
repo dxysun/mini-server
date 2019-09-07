@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini10.miniserver.mapper.GroupRelationMapper">
+    <resultMap id="BaseResultMap" type="com.mini10.miniserver.model.GroupRelation">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="group_id" jdbcType="VARCHAR" property="groupId"/>
+    </resultMap>
+    <insert id="addGroupRelationInfo" parameterType="com.mini10.miniserver.model.GroupRelation">
+      insert into group_relation(open_id,group_id)
+      values (
+      #{openId},
+      #{groupId}
+    )
+    </insert>
+    <delete id="deleteGroupInfo" parameterType="com.mini10.miniserver.model.GroupRelation">
+       delete from group_relation where open_id = #{openId} and group_id = #{groupId}
+    </delete>
+
+    <select id="getGroupIdsByOpenId" resultType="string" parameterType="java.lang.String">
+    select group_id from group_relation where open_id = #{openId}
+    </select>
+
+    <select id="getOpenIdsByGroupId" resultType="string" parameterType="java.lang.String">
+    select open_id from group_relation where group_id = #{groupId}
+    </select>
+</mapper>

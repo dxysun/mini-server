@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini10.miniserver.mapper.DynamicsTemplateMapper">
+    <resultMap id="baseResultMap" type="com.mini10.miniserver.model.DynamicsTemplate">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="diary" jdbcType="VARCHAR" property="diary"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="poster" jdbcType="VARCHAR" property="poster"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,diary,create_time,poster
+    </sql>
+    <select id="queryTemplate"  resultMap="baseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dynamics_template order by rand() limit 1
+    </select>
+    <select id="queryTemplateByNum"  parameterType="java.lang.Integer" resultMap="baseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dynamics_template order by rand() limit #{num}
+    </select>
+</mapper>
