@@ -36,10 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.mini10.miniserver.common.Constant.MODEL_FILE_NAME;
-import static com.mini10.miniserver.common.Constant.docVectorModel;
-import static com.mini10.miniserver.common.Constant.wordVectorModel;
-
 /**
  * @author XiaBin
  * @date 2019-07-24 17:14

@@ -9,8 +9,8 @@ import java.util.HashMap;
  * 公用数据类
  */
 public class Constant {
-    public static WordVectorModel wordVectorModel;
-    public static DocVectorModel docVectorModel;
+//    public static WordVectorModel wordVectorModel;
+//    public static DocVectorModel docVectorModel;
     public static String ACCESS_TOKEN = "";
     public static String HOST_NAME = null;
 
@@ -35,6 +35,7 @@ public class Constant {
     public static final String JSCODE = "";
     public static final String WX_OPENID_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=" +
             APPID + "&secret=" + APPSECRET + "&grant_type=authorization_code&js_code=" + JSCODE;
+    public static final String BAIDU_ACCESS_TOKEN = "24.c54ad14d8aab85b78b3ede1e299a65e8.2592000.1569203840.282335-17075251";
 
     public static class SpecialCode {
         public static final String HEIGH170 = "170cm+";

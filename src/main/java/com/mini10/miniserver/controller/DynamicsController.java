@@ -8,7 +8,6 @@ import com.mini10.miniserver.common.Result;
 import com.mini10.miniserver.common.utils.AjaxObject;
 import com.mini10.miniserver.common.utils.EmotionUtil;
 import com.mini10.miniserver.common.utils.ListUtils;
-import com.mini10.miniserver.common.utils.netease.NetEaseApi;
 import com.mini10.miniserver.model.Dynamics;
 import com.mini10.miniserver.model.param.MatchingResult;
 import com.mini10.miniserver.service.DynamicsService;
@@ -49,10 +48,7 @@ public class DynamicsController {
         Dynamics dynamics = JSONObject.parseObject(str1, Dynamics.class);
 
         String diary = dynamics.getDiary();
-        JSONObject diaryJson = NetEaseApi.checkTxtApi("ebfcad1c-dba1-490c-b4de-e784c2691768", diary);
-        if (diaryJson != null && Integer.parseInt(diaryJson.getJSONObject("result").getString("action")) == 2) {
-            return AjaxObject.error(Constant.ResultCode.UQUALIFIED_CODE, "请文明用语");
-        }
+
         Integer emotionRate = emotionUtil.getEmotion(diary);
         if (emotionRate != 1 && emotionRate != -1 && emotionRate != 0) {
             dynamics.setEmotionRate(EmotionUtil.DEFAULT_EMOTION);

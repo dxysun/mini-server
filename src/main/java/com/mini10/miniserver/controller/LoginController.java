@@ -44,18 +44,7 @@ public class LoginController {
 
     @GetMapping("/check")
     public Result check(HttpServletRequest request) {
-        while (Constant.docVectorModel == null){
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                break;
-            }
-            if(Constant.docVectorModel != null){
-                logger.info("loadModelSuccess");
-                break;
-            }
-        }
+
         return AjaxObject.success(Constant.HOST_NAME + ":服务运行良好：" + springProfilesActive, null);
     }
 

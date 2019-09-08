@@ -3,7 +3,6 @@ package com.mini10.miniserver.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.mini10.miniserver.common.Result;
 import com.mini10.miniserver.common.utils.AjaxObject;
-import com.mini10.miniserver.common.utils.netease.NetEaseApi;
 import com.mini10.miniserver.service.UserFeedbackService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,14 +45,6 @@ public class UserFeedbackController {
         }
         if (StringUtils.isEmpty(content)) {
             return AjaxObject.error("用户反馈不能为空");
-        }
-        // 校验色情暴力
-        JSONObject qualified = NetEaseApi.checkTxtApi("ebfcad1c-dba1-490c-b4de-e784c2691768",content);
-        if(qualified != null){
-            Integer action = qualified.getJSONObject("result").getInteger("action");
-            if (action == 2){
-                return AjaxObject.incivilization("请文明用语");
-            }
         }
         try {
             updateUserData.insertFeedback(openId,content);

@@ -3,6 +3,7 @@ package com.mini10.miniserver.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.mini10.miniserver.common.Constant;
 import com.mini10.miniserver.common.utils.RedisUtil;
+import com.mini10.miniserver.common.utils.RequestUtil;
 import com.mini10.miniserver.mapper.*;
 import com.mini10.miniserver.model.*;
 import com.mini10.miniserver.model.param.MatchGroupResult;
@@ -21,13 +22,8 @@ import org.springframework.util.StringUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.mini10.miniserver.common.Constant.GenderCode.FEMAL;
-import static com.mini10.miniserver.common.Constant.GenderCode.MALE;
-import static com.mini10.miniserver.common.Constant.MatchingCoefficient.FToM;
-import static com.mini10.miniserver.common.Constant.MatchingCoefficient.MToF;
 import static com.mini10.miniserver.common.Constant.SpecialCode.*;
-import static com.mini10.miniserver.common.Constant.docVectorModel;
-import static com.mini10.miniserver.common.Constant.wordVectorModel;
+
 
 
 /**
@@ -47,6 +43,8 @@ public class MatchServiceImpl implements MatchService {
     private RequirementTagMapper requirementTagMapper;
     @Autowired
     private ConditionTagMapper conditionTagMapper;
+    @Autowired
+    private RequestUtil requestUtil;
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -84,10 +82,7 @@ public class MatchServiceImpl implements MatchService {
             log.info("匹配时无法获取到用户本身");
             return null;
         }
-        if (wordVectorModel == null || docVectorModel == null) {
-            log.info("文本模型未加载");
-            return null;
-        }
+
         //遍历每一个群组Id，遍历所有参加的用户
         for (String groupId : groupIdList) {
             //该群组内参加匹配的异性人数
@@ -184,10 +179,7 @@ public class MatchServiceImpl implements MatchService {
             log.info("匹配时无法获取到用户本身");
             return null;
         }
-        if (wordVectorModel == null || docVectorModel == null) {
-            log.info("文本模型未加载");
-            return null;
-        }
+
         //遍历每一个群组Id，遍历所有参加的用户
 
         //该群组内参加匹配的异性人数
@@ -274,20 +266,7 @@ public class MatchServiceImpl implements MatchService {
          * 自己能够满足对方条件的总分
          */
         double totalTargetToSelfScore = 0;
-        /*if (wordVectorModel == null || docVectorModel == null) {
-            log.info("文本模型未加载");
-            return null;
-        }*/
-        int i = 0;
-        while (wordVectorModel == null || docVectorModel == null){
-            try {
-                Thread.sleep(1000);
-            }catch (Exception e) {
 
-            }
-            System.out.println(i);
-            i++;
-        }
         String selfOpenId = selfUser.getOpenId();
         String targetOpenId = targetUser.getOpenId();
         List<RequirementTag> selfNecessaryTags = requirementTagMapper.getNecessaryTagsByOpenId(selfOpenId);
@@ -631,14 +610,22 @@ public class MatchServiceImpl implements MatchService {
                 similarity = 0;
                 redisUtil.hset(requirementTagName, conditionTagName, String.valueOf(similarity));
             } else {
-                similarity = docVectorModel.similarity(requirementTagName, conditionTagName);
+                try {
+                    similarity = requestUtil.getSimilarity(requirementTagName,conditionTagName);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
                 if (similarity > 1) {
                     similarity = 1;
-                } /*else if (similarity < 0.7) {
-                    //如果相似度小于0.7，则再次下调0.2
-                    similarity = similarity - 0.2;
-
-                }*/
+                }
                 if (similarity < 0) {
                     similarity = 0;
                 }

@@ -75,6 +75,20 @@ public class RequestUtil {
         }
     }
 
+    public Double getSimilarity(String text1, String text2) {
+        String url = "https://aip.baidubce.com/rpc/2.0/nlp/v2/simnet?access_token=" + Constant.BAIDU_ACCESS_TOKEN + "&charset=UTF-8" ;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("text_1",text1);
+        jsonObject.put("text_2",text2);
+        JSONObject res = httpUtil.doPost(url,jsonObject);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return res.getDouble("score");
+    }
+
     public JSONObject getAddress(String longitude, String latitude) {
         String d = "https://restapi.amap.com/v3/geocode/regeo?output=json&location=" + longitude + "," + latitude + "&key=" + Constant.Amap.AMAP_KEY + "&radius=1000&extensions=all";
         return httpUtil.doGet(d);

@@ -2,8 +2,6 @@ package com.mini10.miniserver.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mini10.miniserver.common.Constant;
-import com.mini10.miniserver.common.utils.faceplus.FaceRecognition;
-import com.mini10.miniserver.common.utils.netease.NetEaseApi;
 import com.mini10.miniserver.service.ImgService;
 import com.netease.cloud.services.nos.transfer.TransferManager;
 import com.netease.cloud.services.nos.transfer.Upload;
@@ -67,15 +65,7 @@ public class ImgServiceImpl implements ImgService {
         Upload upload = transferManager.upload("mini10", "avatar/" + UUID.randomUUID().toString() + "." + suffixName,resFile);
         UploadResult result = upload.waitForUploadResult();
         String filePath = Constant.NeteaseYun.YUN_URL + result.getKey();
-        JSONObject jsonObject = NetEaseApi.checkImgApiByUrlOrData(filePath,1);
-        if(jsonObject != null){
-            if(jsonObject.getInteger("code").equals(NetEaseApi.SUCCESS_CODE)){
-                if(jsonObject.getJSONArray("antispam").getJSONObject(0).getInteger("action").equals(NetEaseApi.SENSITIVE)){
-                    transferManager.getNosClient().deleteObject("mini10",result.getKey());
-                    return null;
-                }
-            }
-        }
+
         resFile.deleteOnExit();
         upFile.deleteOnExit();
         return filePath;

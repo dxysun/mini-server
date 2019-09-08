@@ -8,7 +8,6 @@ import com.mini10.miniserver.common.utils.AjaxObject;
 import com.mini10.miniserver.common.utils.HttpUtil;
 import com.mini10.miniserver.common.utils.RedisUtil;
 import com.mini10.miniserver.common.utils.RequestUtil;
-import com.mini10.miniserver.common.utils.netease.NetEaseApi;
 import com.mini10.miniserver.config.ScheduledForDynamicConfig;
 import com.mini10.miniserver.model.ConditionTag;
 import com.mini10.miniserver.model.RequirementTag;
@@ -73,16 +72,7 @@ public class UserController {
                     LocalDate birthDate = LocalDate.parse(user.getBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                     user.setAge(nowYear - birthDate.getYear());
                 }
-                if(!StringUtils.isEmpty(user.getSchool())){
-                    JSONObject jsonObject = NetEaseApi.checkTxtApi(UUID.randomUUID().toString(),user.getSchool());
-                    if(jsonObject != null){
-                        if (Integer.parseInt(jsonObject.getJSONObject("result").getString("action")) == 2) {
-                            user.setSchool("");
-                            userService.updateUserData(user);
-                            return AjaxObject.error(Constant.ResultCode.UQUALIFIED_CODE,"请对学校名称使用文明用语");
-                        }
-                    }
-                }
+
                 userService.updateUserData(user);
                 return AjaxObject.success("用户数据更新成功",user);
             } else {
